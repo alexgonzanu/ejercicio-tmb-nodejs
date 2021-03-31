@@ -32,6 +32,7 @@ inquirer.prompt(preguntas)
               process.exit(0);
             }
           }
+          console.log(chalk.hex(`${typeof color !== "undefined" ? color : `#${linia.properties.COLOR_LINIA}`}`)(`Nom de la linia: ${linia.properties.NOM_LINIA} , descripció: ${linia.properties.DESC_LINIA}`));
         });
     }
   });
