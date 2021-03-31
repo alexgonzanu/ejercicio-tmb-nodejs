@@ -5,7 +5,6 @@ const chalk = require("chalk");
 require("dotenv").config();
 const preguntas = require("./arrayPreguntas");
 
-let datosApi;
 program
   .option("-c, --color <txt>", "Muestra colores")
   .option("-a, --abrev", "Abreviatura", false);
@@ -32,7 +31,10 @@ inquirer.prompt(preguntas)
               process.exit(0);
             }
           }
-          console.log(chalk.hex(`${typeof color !== "undefined" ? color : `#${linia.properties.COLOR_LINIA}`}`)(`Nom de la linia: ${linia.properties.NOM_LINIA} , descripció: ${linia.properties.DESC_LINIA}`));
+          console.log(chalk.hex(`${color !== false ? color : `#${linia.properties.COLOR_LINIA}`}`)(`Nom de la linia: ${linia.properties.NOM_LINIA} , descripció: ${linia.properties.DESC_LINIA}`));
+          fetch(`${process.env.URL_TMB_LINIAS_METRO}/${linia.properties.CODI_LINIA}/estacions?app_id=${process.env.APP_ID_TMB}&app_key=${process.env.APP_KEY_TMB}`)
+            .then(res => res.json())
+            .then(paradas => console.log(paradas));
         });
     }
   });
