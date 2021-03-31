@@ -1,5 +1,3 @@
-const chalk = require("chalk");
-
 const preguntas = [
   {
     type: "list",
@@ -18,7 +16,7 @@ const preguntas = [
   },
   {
     type: "checkbox",
-    name: "informacion extra",
+    name: "infoExtra",
     message: "¿Qué información extra quiere obtener de cada parada?",
     choices: [
       {
@@ -30,23 +28,19 @@ const preguntas = [
         value: "Fecha de inaguración"
       }
     ],
-    when: respuesta => respuesta.transporte === "Metro",
+    when: respuesta => respuesta.transporte === "Metro"
   },
   {
     type: "confirm",
-    name: "info-errores",
+    name: "infoErrores",
     message: "¿Quiere que le informemos de los errores?",
-    when: (respuesta) => {
-      if (respuesta.transporte === "Bus") {
-        console.log(chalk.yellow("No tenemos información disponible sobre los buses"));
-        process.exit(0);
-      }
-    }
+    when: respuesta => respuesta.transporte === "Metro"
   },
   {
     type: "input",
-    name: "linia-escogida",
-    message: "¿Qué línea quiere consultar?"
+    name: "liniaEscogida",
+    message: "¿Qué línea quiere consultar?",
+    when: respuesta => respuesta.transporte === "Metro"
   }
 ];
 
