@@ -35,8 +35,12 @@ inquirer.prompt(preguntas)
           fetch(`${process.env.URL_TMB_LINIAS_METRO}/${linia.properties.CODI_LINIA}/estacions?app_id=${process.env.APP_ID_TMB}&app_key=${process.env.APP_KEY_TMB}`)
             .then(res => res.json())
             .then(paradas => {
-              // const { NOM_ESTACIO } = paradas.properties;
-              console.log(paradas.features.map(nombreParada => (abrev ? `${nombreParada.properties.NOM_ESTACIO.slice(0, 3)}.` : nombreParada.properties.NOM_ESTACIO)));
+              for (const parada of paradas.features) {
+                let infoParada = abrev ? `${parada.properties.NOM_ESTACIO.slice(0, 3)}.` : parada.properties.NOM_ESTACIO;
+                infoParada += resp.infoExtra.includes("Coordenadas") ? ` [Coordenadas: ${parada.geometry.coordinates[0]}, ${parada.geometry.coordinates[1]}]` : "";
+                infoParada += resp.infoExtra.includes("Fecha de inaguración") ? ` [Fecha de inaguración: ${parada.properties.DATA_INAUGURACIO}]` : "";
+                console.log(infoParada);
+              }
             });
         });
     }
