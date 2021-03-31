@@ -1,5 +1,10 @@
 const inquirer = require("inquirer");
 const chalk = require("chalk");
+const { program } = require("commander");
+
+program
+  .option("-c --color", "Muestra colores")
+  .option("a --abrev", "Abreviatura", false);
 
 inquirer.prompt([
   {
@@ -31,12 +36,18 @@ inquirer.prompt([
         value: "Fecha de inaguración"
       }
     ],
-    when: respuesta => respuesta.transporte === "Metro"
+    when: respuesta => respuesta.transporte === "Metro",
   },
   {
     type: "confirm",
     name: "info-errores",
-    message: "¿Quiere que le informemos de los errores?"
+    message: "¿Quiere que le informemos de los errores?",
+    when: (respuesta) => {
+      if (respuesta.transporte === "Bus") {
+        console.log(chalk.yellow("No tenemos información disponible sobre los buses"));
+        process.exit(0);
+      }
+    }
   },
   {
     type: "input",
