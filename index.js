@@ -34,7 +34,10 @@ inquirer.prompt(preguntas)
           console.log(chalk.hex(`${color !== false ? color : `#${linia.properties.COLOR_LINIA}`}`)(`Nom de la linia: ${linia.properties.NOM_LINIA} , descripció: ${linia.properties.DESC_LINIA}`));
           fetch(`${process.env.URL_TMB_LINIAS_METRO}/${linia.properties.CODI_LINIA}/estacions?app_id=${process.env.APP_ID_TMB}&app_key=${process.env.APP_KEY_TMB}`)
             .then(res => res.json())
-            .then(paradas => console.log(paradas));
+            .then(paradas => {
+              // const { NOM_ESTACIO } = paradas.properties;
+              console.log(paradas.features.map(nombreParada => (abrev ? `${nombreParada.properties.NOM_ESTACIO.slice(0, 3)}.` : nombreParada.properties.NOM_ESTACIO)));
+            });
         });
     }
   });
