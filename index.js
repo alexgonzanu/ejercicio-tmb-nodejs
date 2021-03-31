@@ -20,6 +20,7 @@ inquirer.prompt([
   {
     type: "checkbox",
     name: "informacion extra",
+    message: "¿Qué información extra quiere obtener de cada parada?",
     choices: [
       {
         name: "coordenadas",
@@ -31,19 +32,19 @@ inquirer.prompt([
       }
     ],
     when: respuesta => respuesta.transporte === "Metro"
+  },
+  {
+    type: "confirm",
+    name: "info-errores",
+    message: "¿Quiere que le informemos de los errores?"
+  },
+  {
+    type: "input",
+    name: "linia-escogida",
+    message: "¿Qué línea quiere consultar?"
   }
 ])
   .then(resp => {
-    /* switch (resp.transporte) {
-      case "Bus":
-        console.log(chalk.yellow("No tenemos información disponible sobre los buses"));
-        process.exit(0);
-        break;
-      case "Metro":
-        break;
-      default:
-        break;
-    } */
     if (resp.transporte === "Bus") {
       console.log(chalk.yellow("No tenemos información disponible sobre los buses"));
       process.exit(0);
